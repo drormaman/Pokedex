@@ -1,0 +1,16 @@
+#results {
+    width: 300px;
+    margin: 100px auto;
+    padding: 10px;
+    background-color: red;
+    display: flex;
+    flex-direction: column;
+    justify-items: start;
+}
+
+#pokemonImg {
+    /* background-color: #424242; */
+    background-color: #fff;
+    border: 2px solid black;
+    align-self: center;
+}
