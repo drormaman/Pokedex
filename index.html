@@ -12,13 +12,16 @@
 </head>
 
 <body>
-    <input id="search" value="43" /><button id="searchButon">Search</button>
+    <div id="searchDiv">
+        <input id="search" value="pikachu" /><button id="searchButon">Search</button>
+    </div>
     <div id="results">
-        <img id="pokemonImg" src="" alt="">
+        <div id="imgBox"><img id="pokemonImg" src="" alt=""></div>
         <h2 id="pokemonName"></h2>
-        <p>Height: <span id="heightSpan"></span> cm</p>
-        <p>Weight: <span id="weightSpan"></span> kg</p>
-        <ul id="typesUl">types: </ul>
+        <div class="properties"><label>Height</label><span>: </span><span id="heightSpan"></span><span> cm</span></div>
+        <div class="properties"><label>Weight</label><span>: </span><span id="weightSpan"></span><span> kg</span></div>
+        <div class="properties"><label>Types</label><span>:</span></div>
+        <ul id="typesUl"></ul>
     </div>
 
 

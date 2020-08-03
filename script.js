@@ -7,8 +7,10 @@ const pokeHeight = document.querySelector("#heightSpan");
 const pokeWeight = document.querySelector("#weightSpan");
 const typesUl = document.querySelector("#typesUl");
 
+
 const API_URL = 'https://pokeapi.co/api/v2';
 axios.defaults.baseURL = API_URL;
+
 
 function getPokemon(pokeIdentifier) {
     return axios.get(`/pokemon/${pokeIdentifier}`)
@@ -27,7 +29,9 @@ function addImageToDocument(pokemonData) {
 }
 
 function addNameToDocument(pokemonData) {
-    pokeName.innerText = pokemonData.name;
+    const nameSplit = pokemonData.name.split("");
+    nameSplit[0] = nameSplit[0].toUpperCase();
+    pokeName.innerText = nameSplit.join("");
 }
 
 function addHeightToDocument(pokemonData) {
@@ -67,7 +71,7 @@ async function showRelatedTypePokemons(event) {
 async function showPokemon(event) {
     event.stopPropagation();
     const identifier = (event.target.id === "searchButon") ? searchInput.value : event.target.innerText;
-    const pokemonObj = await getPokemon(123);
+    const pokemonObj = await getPokemon(identifier);
 
     addImageToDocument(pokemonObj);
     addNameToDocument(pokemonObj);
@@ -77,5 +81,5 @@ async function showPokemon(event) {
 }
 
 
+
 searchBtn.addEventListener('click', showPokemon)
-window.addEventListener('load', showPokemon);
