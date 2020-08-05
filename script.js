@@ -1,11 +1,14 @@
 const searchInput = document.querySelector("#search");
-const searchBtn = document.querySelector("#searchButon");
+const searchBtn = document.querySelector("#searchButton");
 const viewDiv = document.querySelector("#results");
 const pokeImg = document.querySelector("#pokemonImg");
 const pokeName = document.querySelector("#pokemonName");
 const pokeHeight = document.querySelector("#heightSpan");
 const pokeWeight = document.querySelector("#weightSpan");
 const typesUl = document.querySelector("#typesUl");
+const typesDiv = document.querySelector("#typesDiv");
+const relatedTypeList = document.querySelector("#relatedTypeList");
+
 
 
 const API_URL = 'https://pokeapi.co/api/v2';
@@ -28,7 +31,6 @@ function addPropertiesToDocument(pokemonData) {
     pokeName.innerText = pokemonData.name;
     pokeHeight.innerText = `${pokemonData.height * 10}`;
     pokeWeight.innerText = `${pokemonData.weight * 0.1}`;
-
 }
 
 function addTypesListToDocument(pokemonData) {
@@ -37,28 +39,35 @@ function addTypesListToDocument(pokemonData) {
         const typeLi = document.createElement('li');
         const typeName = type.type.name;
         typeLi.innerText = typeName;
-        typeLi.addEventListener('click', showRelatedTypePokemons)
+        typeLi.addEventListener('click', showRelatedTypePokemons);
         typesUl.appendChild(typeLi);
     }
     viewDiv.appendChild(typesUl);
 }
 
 async function showRelatedTypePokemons(event) {
-    const parentLi = event.target;
-    const relatedUl = document.createElement('ul');
-    parentLi.appendChild(relatedUl);
-    const obj = await getListOfSameType(parentLi.innerText)
-
-    console.log(obj.pokemon)
-    const relatedTypeList = await fetch(`${API_URL}/type/${parentLi.innerText.toLowerCase()}`)
-        .then(response => response.json())
-        .then((data) => data.pokemon)
-        .catch((error) => { alert("Pokemon not found\n" + error.message); })
-    for (const pokemon of relatedTypeList) {
-        const pokemonLi = document.createElement('li');
-        pokemonLi.innerText = pokemon.pokemon.name;
-        pokemonLi.addEventListener('click', showPokemon);
-        relatedUl.appendChild(pokemonLi);
+    try {
+        const typeLi = event.target;
+        typeLi.removeEventListener('click', showRelatedTypePokemons)
+        typeLi.addEventListener("click", () => {
+            typesDiv.style.right = "0";
+            typeLi.addEventListener('click', showRelatedTypePokemons);
+        });
+        const responseData = await getListOfSameType(typeLi.innerText);
+        const relatedTypePokemon = responseData.pokemon;
+        typesDiv.style.right = "-150px";
+        relatedTypeList.innerText = "";
+        for (const pokemon of relatedTypePokemon) {
+            const pokemonLi = document.createElement('li');
+            pokemonLi.innerText = pokemon.pokemon.name;
+            pokemonLi.addEventListener('click', (event) => {
+                typesDiv.style.right = "0";
+                showPokemon(event);
+            });
+            relatedTypeList.appendChild(pokemonLi);
+        }
+    } catch (error) {
+        alert("Related pokemons weren't found\n" + error.message);
     }
 }
 
@@ -69,16 +78,20 @@ async function showRelatedTypePokemons(event) {
 // }
 
 function getListOfSameType(type) {
-    return responseData = axios.get(`/type/${type.toLowerCase()}`).then(r => r.data);
+    return responseData = axios.get(`/type/${type.toLowerCase()}`)
+        .then(r => r.data)
+        .catch(error => error)
 
 }
 
 async function showPokemon(event) {
     try {
         event.stopPropagation();
-        const identifier = (event.target.id === "searchButon") ? searchInput.value : event.target.innerText;
-        const response = await fetch(`${API_URL}/pokemon/${identifier.toLowerCase()}`);
-        const pokemonData = await response.json()
+        const identifier = (event.target.id === "searchButton") ? searchInput.value : event.target.innerText;
+        const pokemonData = await fetch(`${API_URL}/pokemon/6`)
+            .then(res => res.json())
+            .catch(error => error)
+            // const response = await fetch(`${API_URL}/pokemon/${identifier.toLowerCase()}`);
         addImageToDocument(pokemonData);
         addPropertiesToDocument(pokemonData);
         addTypesListToDocument(pokemonData);
@@ -91,3 +104,4 @@ async function showPokemon(event) {
 
 
 searchBtn.addEventListener('click', showPokemon)
+window.addEventListener('load', showPokemon)
