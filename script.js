@@ -19,18 +19,25 @@ axios.defaults.baseURL = API_URL;
 
 function addImageToDocument(pokemonData) {
     pokeImg.src = pokemonData.sprites.front_default;
+    let showingFrontImg = true;
     pokeImg.addEventListener('mouseenter', () => {
-        pokeImg.src = pokemonData.sprites.back_default || pokemonData.sprites.front_default;
+        if (showingFrontImg) {
+            pokeImg.src = pokemonData.sprites.back_default || pokemonData.sprites.front_default;
+            showingFrontImg = false;
+        }
     });
     pokeImg.addEventListener('mouseleave', () => {
-        pokeImg.src = pokemonData.sprites.front_default;
+        if (!showingFrontImg) {
+            pokeImg.src = pokemonData.sprites.front_default;
+            showingFrontImg = true;
+        }
     });
 }
 
 function addPropertiesToDocument(pokemonData) {
     pokeName.innerText = pokemonData.name;
     pokeHeight.innerText = `${pokemonData.height * 10}`;
-    pokeWeight.innerText = `${pokemonData.weight * 0.1}`;
+    pokeWeight.innerText = `${Math.round(pokemonData.weight * 0.1)}`;
 }
 
 function addTypesListToDocument(pokemonData) {
@@ -59,6 +66,7 @@ async function showRelatedTypePokemons(event) {
         relatedTypeList.innerText = "";
         for (const pokemon of relatedTypePokemon) {
             const pokemonLi = document.createElement('li');
+            pokemonLi.classList.add("relatedPokemon");
             pokemonLi.innerText = pokemon.pokemon.name;
             pokemonLi.addEventListener('click', (event) => {
                 typesDiv.style.right = "0";
@@ -87,14 +95,16 @@ function getListOfSameType(type) {
 async function showPokemon(event) {
     try {
         event.stopPropagation();
+        // console.log(event.target);
         const identifier = (event.target.id === "searchButton") ? searchInput.value : event.target.innerText;
-        const pokemonData = await fetch(`${API_URL}/pokemon/6`)
+        const pokemonData = await fetch(`${API_URL}/pokemon/${identifier.toLowerCase()}`)
             .then(res => res.json())
             .catch(error => error)
             // const response = await fetch(`${API_URL}/pokemon/${identifier.toLowerCase()}`);
         addImageToDocument(pokemonData);
         addPropertiesToDocument(pokemonData);
         addTypesListToDocument(pokemonData);
+        searchInput.value = "";
     } catch (error) {
         alert("Pokemon not found helllllooo\n" + error.message);
     }
@@ -104,4 +114,4 @@ async function showPokemon(event) {
 
 
 searchBtn.addEventListener('click', showPokemon)
-window.addEventListener('load', showPokemon)
+    // window.addEventListener('load', showPokemon)
