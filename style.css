@@ -43,7 +43,7 @@
 }
 
 #typesDiv::-webkit-scrollbar {
-    width: 10px
+    width: 15px
 }
 
 #typesDiv::-webkit-scrollbar-track {
@@ -53,12 +53,12 @@
 
 #typesDiv::-webkit-scrollbar-thumb {
     background: rgba(255, 255, 255, 0.85);
-    ;
     border-radius: 10px
 }
 
 #relatedTypeList {
     margin-top: 10px;
+    padding-left: 25px;
 }
 
 #typesDiv li {
@@ -148,4 +148,13 @@ label {
 #typesUl li:hover,
 .relatedPokemon:hover {
     font-weight: 600;
+}
+
+#evolutionDiv{
+    display: flex;
+    justify-content: space-between;
+}
+
+#nextButton{
+    margin-left: auto;
 }
