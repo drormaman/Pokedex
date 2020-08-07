@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/00dccddc37.js" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
@@ -15,15 +16,19 @@
 <body>
     <div id="wrapper">
         <div id="pokedexDiv">
-            <input id="search" placeholder="Enter pokemon name or id" />
-            <button id="searchButton">Search pokemon</button>
+            <div id="searchDiv">
+                <input id="search" placeholder="Type pokemon name...">
+                <button id="searchButton"><i class="fas fa-search"></i></button>
+            </div>
             <div id="results">
                 <div id="imgBox">
                     <img id="pokemonImg" src="" alt="">
                 </div>
                 <h2 id="pokemonName"></h2>
-                <div class="properties"><label>Height</label><span>: </span><span id="heightSpan"></span><span> cm</span></div>
-                <div class="properties"><label>Weight</label><span>: </span><span id="weightSpan"></span><span> kg</span></div>
+                <div class="properties"><label>Height</label><span>: </span><span id="heightSpan"></span><span>
+                        cm</span></div>
+                <div class="properties"><label>Weight</label><span>: </span><span id="weightSpan"></span><span>
+                        kg</span></div>
                 <div class="properties"><label>Types</label><span>:</span></div>
                 <ul id="typesUl"></ul>
                 <div>
@@ -32,8 +37,8 @@
                         <label for="nextButton">Evolves to</label>
 
                     </div>
-                <div id="evolutionDiv"></div>
-            </div>
+                    <div id="evolutionDiv"></div>
+                </div>
 
             </div>
             <div id="typesDiv">

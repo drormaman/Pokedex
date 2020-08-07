@@ -1,5 +1,5 @@
 :root {
-    font-family: 'Barlow', sans-serif;
+    font-family: "Barlow", sans-serif;
     text-align: center;
     background-color: #f9a825;
 }
@@ -31,7 +31,6 @@
     width: 150px;
     height: 100%;
     margin: 0 auto;
-    /* box-shadow: 0 0 10px -5px rgba(0, 0, 0, 0.8); */
     border-radius: 10px;
     padding-left: 15px;
     position: absolute;
@@ -68,32 +67,41 @@
     cursor: pointer;
 }
 
+#searchDiv {
+    display: flex;
+    width: 90%;
+    height: 30px;
+    margin: 0 auto;
+    border-radius: 5px;
+}
+
 #search {
-    align-self: center;
-    width: 250px;
-    height: 40px;
-    font-size: 28px;
+    font-size: 16px;
     background-color: black;
     color: white;
     border: none;
-    font-size: 20px;
     border: 1px solid black;
     outline: none;
+    flex: 1 0 80%;
+}
+
+#search::placeholder {
+    font-size: 16px;
 }
 
 #searchButton {
-    align-self: center;
-    font-size: 20px;
+    font-size: 12px;
     border: none;
     outline: none;
-    width: 250px;
-    height: 40px;
     cursor: pointer;
+    flex: 0 0 10%;
+    padding: 0;
+    margin: 0;
 }
 
 #results {
     background-color: #b71c1c;
-    margin: 30px auto;
+    margin: 20px auto;
     width: 75%;
     display: flex;
     padding: 20px;
@@ -102,6 +110,7 @@
     box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.75);
     border-radius: 10px;
 }
+/* להגדיל את האייקון שיתפוס את כל הכפתור ואולי אפילו להוציא את ההכפתור */
 
 #imgBox {
     min-width: 170px;
