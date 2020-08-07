@@ -9,6 +9,8 @@ const typesUl = document.querySelector("#typesUl");
 const typesDiv = document.querySelector("#typesDiv");
 const relatedTypeList = document.querySelector("#relatedTypeList");
 const evolutionDiv = document.querySelector("#evolutionDiv");
+const evolvesFromLabel = document.querySelector('label[for="prevButton"]');
+const evolvesToLabel = document.querySelector('label[for="nextButton"]');
 
 const API_URL = "https://pokeapi.co/api/v2";
 axios.defaults.baseURL = API_URL;
@@ -38,11 +40,14 @@ async function createEvolutionButtons(pokemonData) {
     const evolutionArr = await getEvolvesTo(pokemonData);
     console.log(evolutionArr.indexOf(pokemonData.name));
     const pokemonIndex = evolutionArr.indexOf(pokemonData.name);
+	evolvesFromLabel.style.visibility = "hidden";
+	evolvesToLabel.style.visibility = "hidden";
     if (pokemonIndex > 0) {
 		const prevButton = document.createElement("button");
 		prevButton.id = "prevButton";
 		prevButton.innerText = `${evolutionArr[pokemonIndex - 1]}`;
 		prevButton.addEventListener('click', () => {showPokemon(prevButton.innerText);});
+		evolvesFromLabel.style.visibility = "visible";
         evolutionDiv.appendChild(prevButton);
 	}
 	if (pokemonIndex < evolutionArr.length - 1) {
@@ -50,6 +55,7 @@ async function createEvolutionButtons(pokemonData) {
 		nextButton.id = "nextButton";
 		nextButton.innerText = `${evolutionArr[pokemonIndex + 1]}`;
 		nextButton.addEventListener('click', () => {showPokemon(nextButton.innerText);});
+		evolvesToLabel.style.visibility = "visible";
         evolutionDiv.appendChild(nextButton);
     }
 }
@@ -117,12 +123,6 @@ async function showRelatedTypePokemons(event) {
     }
 }
 
-// function getPokemon(pokeIdentifier) {
-//     return axios.get(`/pokemon/${pokeIdentifier.toLowerCase()}`)
-//         .then(response => response.data)
-//         .catch(error => error)
-// }
-
 function getListOfSameType(type) {
     return (responseData = axios
         .get(`/type/${type.toLowerCase()}`)
@@ -132,8 +132,8 @@ function getListOfSameType(type) {
 
 async function showPokemon(name) {
     try {
-        const pokemonData = await fetch(`${API_URL}/pokemon/${name.toLowerCase()}`)
-            .then((res) => res.json())
+        const pokemonData = await axios.get(`/pokemon/${name.toLowerCase()}`)
+            .then((res) => res.data)
             .catch((error) => error);
         addImageToDocument(pokemonData);
         addPropertiesToDocument(pokemonData);

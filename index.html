@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
@@ -25,7 +26,15 @@
                 <div class="properties"><label>Weight</label><span>: </span><span id="weightSpan"></span><span> kg</span></div>
                 <div class="properties"><label>Types</label><span>:</span></div>
                 <ul id="typesUl"></ul>
+                <div>
+                    <div id="evolutionLabelDiv">
+                        <label for="prevButton">Evolves from</label>
+                        <label for="nextButton">Evolves to</label>
+
+                    </div>
                 <div id="evolutionDiv"></div>
+            </div>
+
             </div>
             <div id="typesDiv">
                 <ul id="relatedTypeList"></ul>
