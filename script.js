@@ -1,3 +1,4 @@
+//DOM initialization
 const searchInput = document.querySelector("#search");
 const searchBtn = document.querySelector("#searchButton");
 const viewDiv = document.querySelector("#results");
@@ -14,51 +15,6 @@ const evolvesToLabel = document.querySelector('label[for="nextButton"]');
 
 const API_URL = "https://pokeapi.co/api/v2";
 axios.defaults.baseURL = API_URL;
-
-async function getEvolvesTo(pokemonData) {
-    const speciesUrl = pokemonData.species.url;
-    const speciesRes = await fetch(speciesUrl).then((res) => res.json());
-    const evolutionChainUrl = speciesRes["evolution_chain"].url;
-    const evolutionRes = await fetch(evolutionChainUrl).then((res) =>
-        res.json()
-    );
-    let evolution = evolutionRes.chain;
-    let isFinal = false;
-    const evolutionArr = [];
-    while (!isFinal) {
-        if (evolution["evolves_to"].length === 0) {
-            isFinal = true;
-        }
-        evolutionArr.push(evolution.species.name);
-        evolution = evolution["evolves_to"][0];
-    }
-    return evolutionArr;
-}
-
-async function createEvolutionButtons(pokemonData) {
-	evolutionDiv.innerHTML = "";
-    const evolutionArr = await getEvolvesTo(pokemonData);
-    console.log(evolutionArr.indexOf(pokemonData.name));
-    const pokemonIndex = evolutionArr.indexOf(pokemonData.name);
-	evolvesFromLabel.style.visibility = "hidden";
-	evolvesToLabel.style.visibility = "hidden";
-    if (pokemonIndex > 0) {
-		const prevButton = document.createElement("button");
-		prevButton.id = "prevButton";
-		prevButton.innerText = `${evolutionArr[pokemonIndex - 1]}`;
-		prevButton.addEventListener('click', () => {showPokemon(prevButton.innerText);});
-		evolvesFromLabel.style.visibility = "visible";
-        evolutionDiv.appendChild(prevButton);
-	}
-	if (pokemonIndex < evolutionArr.length - 1) {
-		const nextButton = document.createElement("button");
-		nextButton.id = "nextButton";
-		nextButton.innerText = `${evolutionArr[pokemonIndex + 1]}`;
-		nextButton.addEventListener('click', () => {showPokemon(nextButton.innerText);});
-		evolvesToLabel.style.visibility = "visible";
-        evolutionDiv.appendChild(nextButton);
-    }
-}
 
 function addImageToDocument(pokemonData) {
     pokeImg.src = pokemonData.sprites.front_default;
@@ -129,10 +85,59 @@ function getListOfSameType(type) {
         .then((r) => r.data)
         .catch((error) => error));
 }
+async function createEvolutionButtons(pokemonData) {
+    evolutionDiv.innerHTML = "";
+    const evolutionArr = await getEvolvesTo(pokemonData);
+    console.log(evolutionArr.indexOf(pokemonData.name));
+    const pokemonIndex = evolutionArr.indexOf(pokemonData.name);
+    evolvesFromLabel.style.visibility = "hidden";
+    evolvesToLabel.style.visibility = "hidden";
+    if (pokemonIndex > 0) {
+        const prevButton = document.createElement("button");
+        prevButton.id = "prevButton";
+        prevButton.innerText = `${evolutionArr[pokemonIndex - 1]}`;
+        prevButton.addEventListener("click", () => {
+            showPokemon(prevButton.innerText);
+        });
+        evolvesFromLabel.style.visibility = "visible";
+        evolutionDiv.appendChild(prevButton);
+    }
+    if (pokemonIndex < evolutionArr.length - 1) {
+        const nextButton = document.createElement("button");
+        nextButton.id = "nextButton";
+        nextButton.innerText = `${evolutionArr[pokemonIndex + 1]}`;
+        nextButton.addEventListener("click", () => {
+            showPokemon(nextButton.innerText);
+        });
+        evolvesToLabel.style.visibility = "visible";
+        evolutionDiv.appendChild(nextButton);
+    }
+}
+
+async function getEvolvesTo(pokemonData) {
+    const speciesUrl = pokemonData.species.url;
+    const speciesRes = await fetch(speciesUrl).then((res) => res.json());
+    const evolutionChainUrl = speciesRes["evolution_chain"].url;
+    const evolutionRes = await fetch(evolutionChainUrl).then((res) =>
+        res.json()
+    );
+    let evolution = evolutionRes.chain;
+    let isFinal = false;
+    const evolutionArr = [];
+    while (!isFinal) {
+        if (evolution["evolves_to"].length === 0) {
+            isFinal = true;
+        }
+        evolutionArr.push(evolution.species.name);
+        evolution = evolution["evolves_to"][0];
+    }
+    return evolutionArr;
+}
 
 async function showPokemon(name) {
     try {
-        const pokemonData = await axios.get(`/pokemon/${name.toLowerCase()}`)
+        const pokemonData = await axios
+            .get(`/pokemon/${name.toLowerCase()}`)
             .then((res) => res.data)
             .catch((error) => error);
         addImageToDocument(pokemonData);
@@ -145,5 +150,19 @@ async function showPokemon(name) {
     }
 }
 
-searchBtn.addEventListener("click",() =>{ showPokemon(searchInput.value)});
-// window.addEventListener('load', showPokemon)
+searchBtn.addEventListener("click", () => {
+    if(searchInput.value === ""){
+        alert('Please enter a pokemon name');
+    }else{
+        showPokemon(searchInput.value);
+    }
+});
+searchInput.addEventListener('keydown', (event) => {
+    if(event.which === 13){
+        if(searchInput.value === ""){
+            alert('Please enter a pokemon name');
+        }else{
+            showPokemon(searchInput.value);
+        }
+    }
+});
