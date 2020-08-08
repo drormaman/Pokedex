@@ -72,31 +72,37 @@
     width: 90%;
     height: 30px;
     margin: 0 auto;
-    border-radius: 5px;
 }
 
 #search {
     font-size: 16px;
-    background-color: black;
+    background-color: #b71c1c;
     color: white;
     border: none;
-    border: 1px solid black;
     outline: none;
     flex: 1 0 80%;
+    padding-left: 4px;
 }
 
 #search::placeholder {
     font-size: 16px;
+    color: rgba(255, 255, 255, 0.5);
 }
 
 #searchButton {
-    font-size: 12px;
+    font-size: 20px;
+    background-color: #b71c1c;
     border: none;
     outline: none;
     cursor: pointer;
     flex: 0 0 10%;
-    padding: 0;
     margin: 0;
+    align-self: center;
+    height:25px;
+    padding-top: 5px;;
+}
+#searchButton:hover{
+    color: rgba(0, 0, 0, 0.3)
 }
 
 #results {

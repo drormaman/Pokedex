@@ -81,8 +81,8 @@ function addImageToDocument(pokemonData) {
 
 function addPropertiesToDocument(pokemonData) {
     pokeName.innerText = pokemonData.name;
-    pokeHeight.innerText = `${pokemonData.height * 10}`;
-    pokeWeight.innerText = `${Math.round(pokemonData.weight * 0.1)}`;
+    pokeHeight.innerText = `${pokemonData.height * 10} cm`;
+    pokeWeight.innerText = `${Math.round(pokemonData.weight * 0.1)} kg`;
 }
 
 function addTypesListToDocument(pokemonData) {
