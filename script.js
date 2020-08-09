@@ -88,7 +88,6 @@ function getListOfSameType(type) {
 async function createEvolutionButtons(pokemonData) {
     evolutionDiv.innerHTML = "";
     const evolutionArr = await getEvolvesTo(pokemonData);
-    console.log(evolutionArr.indexOf(pokemonData.name));
     const pokemonIndex = evolutionArr.indexOf(pokemonData.name);
     evolvesFromLabel.style.visibility = "hidden";
     evolvesToLabel.style.visibility = "hidden";
@@ -151,17 +150,17 @@ async function showPokemon(name) {
 }
 
 searchBtn.addEventListener("click", () => {
-    if(searchInput.value === ""){
+    if (searchInput.value === "") {
         alert('Please enter a pokemon name');
-    }else{
+    } else {
         showPokemon(searchInput.value);
     }
 });
 searchInput.addEventListener('keydown', (event) => {
-    if(event.which === 13){
-        if(searchInput.value === ""){
+    if (event.which === 13) {
+        if (searchInput.value === "") {
             alert('Please enter a pokemon name');
-        }else{
+        } else {
             showPokemon(searchInput.value);
         }
     }
